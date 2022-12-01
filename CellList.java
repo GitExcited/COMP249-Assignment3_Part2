@@ -16,13 +16,22 @@ public class CellList {
             cellphone=_cellphone;
             next=_cellnode;
         }
-
+        /**
+         * Takes a cellNode as parameter and clones it. This creates a new clonedCellNode with a deep copy of the cellphone attribute and the same next
+         * node. Then initializes this CellNode's attributes to the clonde cellphone and the attribute next passed from the cellNode from the parameter.
+         * @param _cellNode
+         */
         CellNode(CellNode _cellNode){
-            //Dont know 
+            CellNode clonedCellNode = _cellNode.clone();
+            cellphone = clonedCellNode.getCellphone();
+            next = clonedCellNode.next;
         }
-        //Shallow copy
+        /**
+         * Clone method returns a cell node that contains a hard copy of the cellphone attribute in the original cellnode. This cellphone 
+         * is a hard copy with a serial number input by user. However, the next attribute is the same for the original cellnode and the clone.
+         */
         public CellNode clone(){
-            CellNode newCellNode = new CellNode(cellphone,next);
+            CellNode newCellNode = new CellNode(cellphone.clone(),next);
             return newCellNode;
         }
         public Cellphone getCellphone(){
@@ -59,6 +68,10 @@ public class CellList {
         if (index<0 || index> (size-1)) {
             throw new NoSuchElementException();
             //if this is thrown then system.exit(0)
+        }
+        if(_cellphone==null){
+            System.out.println("Please enter a valid cellphone. This one is null");
+            return;
         }
         if(head== null) {
             System.out.println("List is empty, nothing was added");
@@ -108,7 +121,9 @@ public class CellList {
         ///  c1 c2 c3  c5 
     }
     public void deleteFromStart(){
-        if( head == null){System.out.println("Nothing to delete, list is empty!");return;}//Special case if list is empty
+        if( head == null){
+            System.out.println("Nothing to delete, list is empty!");
+            return;}//Special case if list is empty
         CellNode t = head;
             head = t.next;
             size--;
@@ -116,7 +131,11 @@ public class CellList {
     }
     public void replaceAtIndex(Cellphone _cellphone, int index){
         if (index<0 || index> (size-1)) {
-            System.out.println("Error: index not found @ replaceAtIndex()");
+            System.out.println("Error: index invalid for this list");
+            return;
+        }
+        if(_cellphone==null){
+            System.out.println("Error: Cellphone passed is null");
             return;
         }
         if(index ==0){
@@ -194,6 +213,12 @@ public class CellList {
             System.out.println("Lists arent the same size therefore they cannot be equal");
             return false; //Checking of their attributes are equal
         }
+        //Special case where both files are empty
+        if(list.size == 0 ){
+            System.out.println("Both Lists are empty so they are technically equal");
+            return true;
+        }
+
         int i =0;
         while( i<size){
             Cellphone cell_t = t.getCellphone();

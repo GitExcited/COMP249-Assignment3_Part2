@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Cellphone implements Cloneable{
 
  private long serialNum = 0 ;
@@ -14,11 +16,11 @@ private static int counter;
  counter++;
 }
 
-public Cellphone (String _brand, int _year, double _price){
+public Cellphone (long _serialNum,String _brand, int _year, double _price){
     brand = _brand;
     year = _year;
     price = _price;
-    serialNum = counter;
+    serialNum = _serialNum;
     counter++;
 }
 
@@ -31,8 +33,20 @@ public Cellphone( Cellphone _cellphone, long _serialNum){
     counter ++;
 }
 
-public Cellphone clone(long _serialNum){
-    Cellphone newCell = new Cellphone(brand,year,price);
+public Cellphone clone(){
+    System.out.println("Pleas enter a new serial number for the clone phone");
+    Scanner key = new Scanner(System.in);
+    long ID;
+    while(true){
+        try{
+         ID= key.nextLong();
+        break;
+        }
+        catch(Exception e){
+            System.out.println("Please enter a valid number");
+        }
+    }
+    Cellphone newCell = new Cellphone(ID,brand,year,price);
     return newCell;
 }
 
