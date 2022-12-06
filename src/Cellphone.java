@@ -6,7 +6,7 @@
 
 import java.util.Scanner;
 
-//Celphone object
+//Cellphone object
 public class Cellphone implements Cloneable{
 
  private long serialNum = 0 ;
