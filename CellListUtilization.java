@@ -1,8 +1,20 @@
+//
+// Part: 2
+// Written by: Yash Patel, 40175454, David Ruiz, 40176885
+//
+// 
 import java.util.NoSuchElementException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class CellListUtilization {
+    
+    /** 
+     * @param args
+     * Opens Cell_info.txt file and copies its contents into a cell list except for duplicates serial numbers. Then it will ask user if they want to 
+     * search for a phone by their serial number. If a valid serial number is input, program will try to find a matching cellphone and return it if 
+     * found as well as the number of iterations it took . Otherwise it will return a no phone found message and the numebr of iterations it took. 
+     */
     public static void main(String[] args) {
 
         //Populating CellList with Cell_Info.txt
@@ -18,13 +30,13 @@ public class CellListUtilization {
         }
         //Reading file and creating a cellphone object to be added to the CellList Inventory
         while(cellFile.hasNextLine()){
-        long serialNum = cellFile.nextLong();
-        String brand = cellFile.next();
-        double price = cellFile.nextDouble();
-        int year = cellFile.nextInt();
-        Cellphone newPhone = new Cellphone(serialNum,brand,year,price);
-        if(Inventory.contains(newPhone.getSerialNum()))continue;//Takes care of duplicates
-        Inventory.addToStart(newPhone);
+            long serialNum = cellFile.nextLong();
+            String brand = cellFile.next();
+            double price = cellFile.nextDouble();
+            int year = cellFile.nextInt();
+            Cellphone newPhone = new Cellphone(serialNum,brand,year,price);
+            if(Inventory.contains(newPhone.getSerialNum()))continue;//Takes care of duplicates
+            Inventory.addToStart(newPhone);
 
         }
         //Show INvnetory contents and close file
@@ -58,76 +70,79 @@ public class CellListUtilization {
             System.out.println("You have "+(NUMBEROFTRIES-i)+" more searches");
 
         }
+
         key.close();
 
-        //**TESTING STUFF */
-        //Insert at Index
-        Cellphone TrialPhone = new Cellphone();
-        try{
-        Inventory.insertAtIndex(TrialPhone, 5);
-        Inventory.showContents(); // Works. THere is a default phone at 5th index.
-            //Testing some Special cases
-            // Inventory.insertAtIndex(TrialPhone, -20);//Index <0 throws Exception
-            // Inventory.insertAtIndex(TrialPhone, 100);//Index > size Throws Exception
-            // Inventory.insertAtIndex(null, 2);//Passing null object shows error
-        }
-        catch(NoSuchElementException e){
-            System.out.println("No such element Exception!");
+        
 
-        }
-        catch(Exception e){
-            System.out.println("Found an Exception!");
+        // //**TESTING STUFF */
+        // //Insert at Index
+        // Cellphone TrialPhone = new Cellphone();
+        // try{
+        // Inventory.insertAtIndex(TrialPhone, 5);
+        // Inventory.showContents(); // Works. THere is a default phone at 5th index.
+        //     //Testing some Special cases
+        //     // Inventory.insertAtIndex(TrialPhone, -20);//Index <0 throws Exception
+        //     // Inventory.insertAtIndex(TrialPhone, 100);//Index > size Throws Exception
+        //     // Inventory.insertAtIndex(null, 2);//Passing null object shows error
+        // }
+        // catch(NoSuchElementException e){
+        //     System.out.println("No such element Exception!");
 
-        }
+        // }
+        // catch(Exception e){
+        //     System.out.println("Found an Exception!");
 
-        //deleteFromIndex
-        try{
-        Inventory.deleteFromIndex(0);// Works, deletes Cellphone at index 0
-        Inventory.deleteFromIndex(2);// Works, deletes Cellphone at index 2
-        Inventory.deleteFromIndex(21);//Works, deletes last element
-        // Inventory.deleteFromIndex(21);//Throws No such elemtn exception
-        Inventory.showContents();
-        }
-        catch(NoSuchElementException e){
-            System.out.println("No such element Exception!");
+        // }
 
-        }
-        catch(Exception e){
-            System.out.println("Found an Exception!");
+        // //deleteFromIndex
+        // try{
+        // Inventory.deleteFromIndex(0);// Works, deletes Cellphone at index 0
+        // Inventory.deleteFromIndex(2);// Works, deletes Cellphone at index 2
+        // Inventory.deleteFromIndex(21);//Works, deletes last element
+        // // Inventory.deleteFromIndex(21);//Throws No such elemtn exception
+        // Inventory.showContents();
+        // }
+        // catch(NoSuchElementException e){
+        //     System.out.println("No such element Exception!");
 
-        }
+        // }
+        // catch(Exception e){
+        //     System.out.println("Found an Exception!");
 
-        //deleteFromStart
-        try{
-        Inventory.deleteFromStart();//Works. Deletes first element
-        Inventory2.deleteFromStart();//Works, shows message that list is empty thus nothing to delete.
-        Inventory.showContents();
-        }
-        catch(NoSuchElementException e){
-                System.out.println("No such element Exception!");
+        // }
+
+        // //deleteFromStart
+        // try{
+        // Inventory.deleteFromStart();//Works. Deletes first element
+        // Inventory2.deleteFromStart();//Works, shows message that list is empty thus nothing to delete.
+        // Inventory.showContents();
+        // }
+        // catch(NoSuchElementException e){
+        //         System.out.println("No such element Exception!");
     
-        }
-        catch(Exception e){
-                System.out.println("Found an Exception!");
+        // }
+        // catch(Exception e){
+        //         System.out.println("Found an Exception!");
     
-        }
+        // }
 
-        //ReplaceAtIndex 
-        try{
-            Inventory.replaceAtIndex(TrialPhone, 0);//Works, replaces index 0 phone with default phone
-            Inventory.replaceAtIndex(TrialPhone, 2);// Works, replaces index 2 phone with default phone.
-            Inventory.replaceAtIndex(null, 2);//Works, shows null object passed error
-            Inventory.replaceAtIndex(TrialPhone, 100);
-            Inventory.showContents();
-        }
-        catch(NoSuchElementException e){
-                System.out.println("No such element Exception!");
+        // //ReplaceAtIndex 
+        // try{
+        //     Inventory.replaceAtIndex(TrialPhone, 0);//Works, replaces index 0 phone with default phone
+        //     Inventory.replaceAtIndex(TrialPhone, 2);// Works, replaces index 2 phone with default phone.
+        //     Inventory.replaceAtIndex(null, 2);//Works, shows null object passed error
+        //     Inventory.replaceAtIndex(TrialPhone, 100);//Works, throws error because index is larger than size
+        //     Inventory.showContents();
+        // }
+        // catch(NoSuchElementException e){
+        //         System.out.println("No such element Exception!");
     
-        }
-        catch(Exception e){
-                System.out.println("Found an Exception!");
+        // }
+        // catch(Exception e){
+        //         System.out.println("Found an Exception!");
     
-        }
+        // }
         
     }
 }

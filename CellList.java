@@ -1,13 +1,15 @@
-//Missing: CellNode copy constructor, cellnode clone(),
-//CellList copy constructor,
+//
+// Part: 2
+// Written by: Yash Patel, 40175454, David Ruiz, 40176885
+//
+// 
 import java.util.NoSuchElementException;
 
 public class CellList {
-    //Some stuff missing below vvvv
-    private class CellNode{
+    class CellNode{
         private Cellphone cellphone;
         private CellNode next;
-
+    
         CellNode(){
             cellphone = null;
             next= null;
@@ -34,18 +36,44 @@ public class CellList {
             CellNode newCellNode = new CellNode(cellphone.clone(),next);
             return newCellNode;
         }
+    
+        
+        /** 
+         * @return Cellphone
+         * Returns cellphone object
+         */
         public Cellphone getCellphone(){
             return cellphone;
         }        
+        
+        /** 
+         * @return CellNode
+         * Returns node attribute
+         */
         public CellNode getCellNode(){
             return next;
         }
+        
+        /** 
+         * @param _cellphone
+         * Modifies cellphone object to the passed cellphone 
+         */
         public void setCellphone(Cellphone _cellphone){
             cellphone = _cellphone;
         }
+        
+        /** 
+         * @param _next
+         * Modifies next node to the passe node
+         */
         public void setCellNode (CellNode _next){
             next = _next;
         }
+        
+        /** 
+         * @return String
+         * Returns cellphone information as a string
+         */
         public String toString(){
             return cellphone.toString();
         }
@@ -60,10 +88,24 @@ public class CellList {
     CellList(CellList _CellList){
         //Some sort of copy constructor
     }
+    
+    /** 
+     * 
+     * @param _cellphone
+     * Adds cellphone node to the start of the Cell List
+     */
     public void addToStart(Cellphone _cellphone){
         head = new CellNode(_cellphone,head);
         size++;
     }
+    
+    /** 
+     * @param _cellphone
+     * @param index
+     * @throws NoSuchElementException
+     * Inserts cellphone node at the specified index in the cell list. The previous node at that list and all the ones after are moved up one index.
+     * 
+     */
     public void insertAtIndex (Cellphone _cellphone, int index) throws NoSuchElementException{
         if (index<0 || index> (size-1)) {
             throw new NoSuchElementException();
@@ -90,6 +132,12 @@ public class CellList {
         t.next = new CellNode(_cellphone, t.next);
         size++;
     }
+    
+    /** 
+     * @param index
+     * @throws NoSuchElementException
+     * Deletes node at specified index from the cell list. 
+     */
     public void deleteFromIndex(int index) throws NoSuchElementException{
         //Checks for valid index
         if (index<0 || index> (size-1)) {
@@ -110,16 +158,12 @@ public class CellList {
         if(h.next == null) {t.next = null;size--;return;}//Special case if target node h is at the end of the linked list
         t.next =h.next; //In normal case, simply make node t point to the node after the target node h thus deleting node h.
         size--;
-        ///index = 3
-        ///  0  1   2   3   4     <-- index
-        ///  c1 c2  c3  c4  c5    <--Nodes
-        ///  -  -   i
-        ///  -  -   t
-        ///  -  -   -   h   h.next
-        ///         t------>h.next  
-        ///****Result****///
-        ///  c1 c2 c3  c5 
+        
     }
+
+    /**
+     * Deletes the first node in the cell list
+     */
     public void deleteFromStart(){
         if( head == null){
             System.out.println("Nothing to delete, list is empty!");
@@ -129,6 +173,12 @@ public class CellList {
             size--;
             return;
     }
+    
+    /** 
+     * @param _cellphone
+     * @param index
+     * Replaces node at passed index with the passed cell node in the cell list
+     */
     public void replaceAtIndex(Cellphone _cellphone, int index){
         if (index<0 || index> (size-1)) {
             System.out.println("Error: index invalid for this list");
@@ -152,6 +202,13 @@ public class CellList {
         CellNode h = t.next; //h is the target node at target index
         t.next = new CellNode(_cellphone,h.next); //Node t (the one before h ) points now at the new node. the new node points at h.next. Thus replacing h
     }
+    
+    /** 
+     * @param _serialNum
+     * @return Cellphone
+     * Attemps to find a cellphone node in the cell list with the same passed serial Number. The found cellphone is returned. If no cellphone is found,
+     * the method returns null. Also keeps track of the number of iterations before finding the cellphone.
+     */
     public Cellphone find(long _serialNum){
         if(_serialNum<0){
             System.out.println("Serial numbers must be poisitive Integers");
@@ -176,11 +233,41 @@ public class CellList {
         System.out.println("Phone was found after "+counter+" iterations");
         return t.getCellphone();
     }
+    
+    /** 
+     * @param _serialNum
+     * @return boolean
+     * Returns true if a cellphone is found on the cell list with the passed serial number. False if not
+     */
     public boolean contains(long _serialNum){
-        Cellphone c = find(_serialNum);
+        
+        Cellphone c  = new Cellphone();
+
+        if(_serialNum<0){
+            c = null;
+        }
+        CellNode t = head;
+        //Special case: List is empty
+        if( t== null){
+            c= null;
+        }
+
+        if( t!=null) {
+            while(t.getCellphone().getSerialNum() != _serialNum){
+                t= t.next;
+                //Special case: no phone is found in the list (t reaches the end where t == null);
+                if (t == null){
+                    c= null;
+                    break;
+                }
+            }
+        }
+
         if (c!= null)return true;
         else return false;
     }
+
+    //Prints the entire cell list containing each individual cell node and each of the cell node's cellphone attributes
     public void showContents(){
         if (head == null){System.out.println("NO contents in this list"); return;}
         CellNode t = head;
@@ -193,6 +280,7 @@ public class CellList {
         System.out.print("X \n");
     }
     /**
+     * @param o
      * Two lists are equal if they contain the same number of nodes. Additionally, all nodes are the same but they dont have to be on the
      * same order. Each node is compared by their cellphone attributes which must have the same brand, year and date to be equal. This makes
      * two nodes equal.
@@ -237,10 +325,7 @@ public class CellList {
                 h= h.next;
                 j++;
             }
-            //If j index passes the last index of h Nodes then no equal phone was found
-           // 0  1   2  3
-           // c2 c3 c4 c6
-            // - -  -  j
+           
 
             t= t.next;
             i++;
